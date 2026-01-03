@@ -115,7 +115,7 @@ export const PageLoading = ({ isLoading }: PageLoadingProps) => {
             ease: 'easeInOut',
           }}
         >
-          <span className="text-2xl font-bold text-primary-foreground">JD</span>
+          <span className="text-2xl font-bold text-primary-foreground">WN</span>
         </motion.div>
         <LoadingDots />
       </motion.div>

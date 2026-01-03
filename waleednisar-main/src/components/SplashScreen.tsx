@@ -101,7 +101,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.4 }}
               >
-                JD
+                WN
               </motion.span>
             </div>
           </div>
@@ -114,7 +114,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.5 }}
         >
-          John Doe
+          Waleed Nisar
         </motion.h1>
 
         {/* Title */}
