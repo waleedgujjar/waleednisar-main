@@ -1,81 +1,44 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, memo } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
-// Cinematic Aurora Effect with multiple layers
-const CinematicAurora = () => (
+// Optimized Aurora - reduced complexity
+const CinematicAurora = memo(() => (
   <div className="absolute inset-0 overflow-hidden">
-    {/* Primary rotating aurora */}
     <motion.div
       className="absolute -top-1/2 -left-1/4 w-[200%] h-[200%]"
-      animate={{
-        rotate: [0, 360],
-        scale: [1, 1.1, 1],
-      }}
-      transition={{
-        rotate: { duration: 120, repeat: Infinity, ease: "linear" },
-        scale: { duration: 20, repeat: Infinity, ease: "easeInOut" },
-      }}
+      animate={{ rotate: 360 }}
+      transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
     >
       <div 
-        className="absolute inset-0 blur-3xl opacity-60"
+        className="absolute inset-0 blur-3xl opacity-50"
         style={{
           background: 'conic-gradient(from 0deg, hsl(var(--primary) / 0.3), transparent 30%, hsl(var(--accent) / 0.2), transparent 60%, hsl(var(--primary) / 0.25), transparent)',
         }}
       />
     </motion.div>
     
-    {/* Secondary counter-rotating layer */}
     <motion.div
       className="absolute -bottom-1/2 -right-1/4 w-[180%] h-[180%]"
-      animate={{
-        rotate: [360, 0],
-        scale: [1.1, 1, 1.1],
-      }}
-      transition={{
-        rotate: { duration: 100, repeat: Infinity, ease: "linear" },
-        scale: { duration: 15, repeat: Infinity, ease: "easeInOut" },
-      }}
+      animate={{ rotate: -360 }}
+      transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
     >
       <div 
-        className="absolute inset-0 blur-3xl opacity-50"
+        className="absolute inset-0 blur-3xl opacity-40"
         style={{
           background: 'conic-gradient(from 180deg, hsl(var(--accent) / 0.25), transparent 40%, hsl(var(--primary) / 0.2), transparent)',
         }}
       />
     </motion.div>
-    
-    {/* Pulsing center glow */}
-    <motion.div
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%]"
-      animate={{
-        opacity: [0.3, 0.6, 0.3],
-        scale: [0.8, 1.3, 0.8],
-      }}
-      transition={{
-        duration: 10,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    >
-      <div 
-        className="w-full h-full blur-3xl"
-        style={{
-          background: 'radial-gradient(ellipse at center, hsl(var(--primary) / 0.25) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)',
-        }}
-      />
-    </motion.div>
   </div>
-);
+));
 
-// Floating Orbs with depth and glow
-const FloatingOrbs = () => {
+// Reduced orbs from 6 to 4
+const FloatingOrbs = memo(() => {
   const orbs = useMemo(() => [
     { size: 400, x: '5%', y: '15%', color: 'primary', delay: 0, duration: 28 },
     { size: 500, x: '75%', y: '20%', color: 'accent', delay: 2, duration: 32 },
     { size: 300, x: '65%', y: '65%', color: 'primary', delay: 4, duration: 24 },
     { size: 450, x: '15%', y: '75%', color: 'accent', delay: 1, duration: 30 },
-    { size: 350, x: '45%', y: '5%', color: 'primary', delay: 3, duration: 26 },
-    { size: 280, x: '85%', y: '55%', color: 'accent', delay: 5, duration: 22 },
   ], []);
 
   return (
@@ -83,21 +46,19 @@ const FloatingOrbs = () => {
       {orbs.map((orb, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full blur-3xl"
+          className="absolute rounded-full blur-3xl will-change-transform"
           style={{
             width: orb.size,
             height: orb.size,
             left: orb.x,
             top: orb.y,
             background: orb.color === 'primary' 
-              ? 'radial-gradient(circle, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.1) 40%, transparent 70%)'
-              : 'radial-gradient(circle, hsl(var(--accent) / 0.3) 0%, hsl(var(--accent) / 0.08) 40%, transparent 70%)',
+              ? 'radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%)'
+              : 'radial-gradient(circle, hsl(var(--accent) / 0.25) 0%, transparent 70%)',
           }}
           animate={{
             x: [0, 60, -40, 0],
             y: [0, -50, 40, 0],
-            scale: [1, 1.25, 0.85, 1],
-            opacity: [0.5, 0.9, 0.4, 0.5],
           }}
           transition={{
             duration: orb.duration,
@@ -109,18 +70,18 @@ const FloatingOrbs = () => {
       ))}
     </div>
   );
-};
+});
 
-// Rising Particles
-const ParticleField = () => {
+// Reduced particles from 80 to 40
+const ParticleField = memo(() => {
   const particles = useMemo(() => 
-    Array.from({ length: 80 }, (_, i) => ({
+    Array.from({ length: 40 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 4 + 1,
-      duration: Math.random() * 25 + 20,
-      delay: Math.random() * 15,
+      size: Math.random() * 3 + 1,
+      duration: Math.random() * 20 + 15,
+      delay: Math.random() * 10,
     })), []
   );
 
@@ -129,37 +90,35 @@ const ParticleField = () => {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full"
+          className="absolute rounded-full will-change-transform"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
-            background: `radial-gradient(circle, hsl(var(--primary) / 0.8) 0%, hsl(var(--primary) / 0.3) 100%)`,
-            boxShadow: `0 0 ${particle.size * 2}px hsl(var(--primary) / 0.4)`,
+            background: `hsl(var(--primary) / 0.6)`,
           }}
           animate={{
-            y: [0, -150, 0],
+            y: -150,
             opacity: [0, 1, 0],
-            scale: [0, 1.2, 0],
           }}
           transition={{
             duration: particle.duration,
             delay: particle.delay,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "linear",
           }}
         />
       ))}
     </div>
   );
-};
+});
 
-// Animated Grid with pulse
-const AnimatedGrid = () => (
+// Static grid - removed animation
+const AnimatedGrid = memo(() => (
   <div className="absolute inset-0 overflow-hidden">
     <div 
-      className="absolute inset-0 opacity-[0.15]"
+      className="absolute inset-0 opacity-[0.12]"
       style={{
         backgroundImage: `
           linear-gradient(to right, hsl(var(--primary) / 0.15) 1px, transparent 1px),
@@ -169,93 +128,71 @@ const AnimatedGrid = () => (
         maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
       }}
     />
-    <motion.div
-      className="absolute inset-0"
-      style={{
-        backgroundImage: `
-          linear-gradient(to right, hsl(var(--accent) / 0.1) 1px, transparent 1px),
-          linear-gradient(to bottom, hsl(var(--accent) / 0.1) 1px, transparent 1px)
-        `,
-        backgroundSize: '160px 160px',
-        maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 60%)',
-      }}
-      animate={{
-        opacity: [0.2, 0.5, 0.2],
-      }}
-      transition={{
-        duration: 5,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    />
   </div>
-);
+));
 
-// Dynamic Light Beams
-const LightBeams = () => (
-  <div className="absolute inset-0 overflow-hidden">
-    {[...Array(6)].map((_, i) => (
+// Reduced beams from 6 to 4
+const LightBeams = memo(() => (
+  <div className="absolute inset-0 overflow-hidden opacity-60">
+    {[0, 1, 2, 3].map((i) => (
       <motion.div
         key={i}
-        className="absolute h-[250%] w-[3px] origin-top"
+        className="absolute h-[200%] w-[2px] origin-top will-change-transform"
         style={{
-          left: `${10 + i * 18}%`,
+          left: `${15 + i * 22}%`,
           top: '-50%',
-          background: `linear-gradient(to bottom, transparent, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.1), transparent)`,
-          transform: `rotate(${-20 + i * 8}deg)`,
+          background: `linear-gradient(to bottom, transparent, hsl(var(--primary) / 0.3), transparent)`,
+          transform: `rotate(${-15 + i * 10}deg)`,
         }}
         animate={{
-          opacity: [0, 0.7, 0],
-          scaleY: [0.4, 1.2, 0.4],
+          opacity: [0, 0.6, 0],
         }}
         transition={{
-          duration: 6 + i * 0.8,
-          delay: i * 0.6,
+          duration: 5 + i,
+          delay: i * 0.5,
           repeat: Infinity,
           ease: "easeInOut",
         }}
       />
     ))}
   </div>
-);
+));
 
-// Noise Texture
-const NoiseTexture = () => (
+// CSS-based noise texture (no SVG)
+const NoiseTexture = memo(() => (
   <div 
-    className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
+    className="absolute inset-0 opacity-[0.015] mix-blend-overlay pointer-events-none"
     style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+      backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--foreground) / 0.03) 2px, hsl(var(--foreground) / 0.03) 4px)`,
     }}
   />
-);
+));
 
-// Floating Code Snippets with glass effect
-const FloatingCode = () => {
+// Optimized code snippets
+const FloatingCode = memo(() => {
   const snippets = useMemo(() => [
-    { code: '<Developer />', x: '3%', y: '12%', delay: 0 },
-    { code: 'const passion = "∞"', x: '88%', y: '22%', delay: 2 },
-    { code: 'npm run create', x: '8%', y: '78%', delay: 4 },
-    { code: 'export default Hero', x: '82%', y: '82%', delay: 1 },
-    { code: '{ ...skills }', x: '92%', y: '45%', delay: 3 },
+    { code: '<Dev />', x: '5%', y: '15%', delay: 0 },
+    { code: 'const ∞', x: '88%', y: '25%', delay: 2 },
+    { code: 'npm run', x: '10%', y: '75%', delay: 4 },
+    { code: '{...skills}', x: '90%', y: '50%', delay: 3 },
   ], []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none hidden lg:block">
       {snippets.map((snippet, i) => (
         <motion.div
           key={i}
-          className="absolute font-mono text-xs text-primary/40 backdrop-blur-md px-4 py-2 rounded-lg border border-primary/10 bg-background/5"
+          className="absolute font-mono text-xs text-primary/30 backdrop-blur-sm px-3 py-1.5 rounded border border-primary/10 bg-background/5"
           style={{ left: snippet.x, top: snippet.y }}
-          initial={{ opacity: 0, y: 30 }}
           animate={{ 
-            opacity: [0, 0.7, 0],
-            y: [30, 0, -30],
+            opacity: [0, 0.6, 0],
+            y: [20, 0, -20],
           }}
           transition={{
-            duration: 10,
+            duration: 8,
             delay: snippet.delay,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "linear",
           }}
         >
           {snippet.code}
@@ -263,58 +200,52 @@ const FloatingCode = () => {
       ))}
     </div>
   );
-};
+});
 
-// Morphing Blob
-const MorphingBlob = ({ className, color = 'primary' }: { className?: string; color?: string }) => (
+// Simplified morphing blob
+const MorphingBlob = memo(({ className, color = 'primary' }: { className?: string; color?: string }) => (
   <motion.div
     className={`absolute blur-3xl ${className}`}
     style={{
       background: color === 'primary' 
-        ? 'radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, transparent 70%)'
-        : 'radial-gradient(circle, hsl(var(--accent) / 0.2) 0%, transparent 70%)',
+        ? 'radial-gradient(circle, hsl(var(--primary) / 0.2) 0%, transparent 70%)'
+        : 'radial-gradient(circle, hsl(var(--accent) / 0.18) 0%, transparent 70%)',
+      borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
     }}
     animate={{
-      borderRadius: [
-        "60% 40% 30% 70% / 60% 30% 70% 40%",
-        "30% 60% 70% 40% / 50% 60% 30% 60%",
-        "60% 40% 30% 70% / 60% 30% 70% 40%",
-      ],
-      scale: [1, 1.15, 1],
+      scale: [1, 1.1, 1],
     }}
     transition={{
-      duration: 12,
+      duration: 10,
       repeat: Infinity,
       ease: "easeInOut",
     }}
   />
-);
+));
 
-// Orbiting Rings
-const OrbitingRings = () => (
-  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-    {[300, 450, 600].map((size, i) => (
+// Reduced rings from 3 to 2
+const OrbitingRings = memo(() => (
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+    {[400, 600].map((size, i) => (
       <motion.div
         key={i}
-        className="absolute rounded-full border border-primary/10"
+        className="absolute rounded-full border border-primary/8"
         style={{ width: size, height: size }}
         animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
         transition={{
-          duration: 40 + i * 15,
+          duration: 50 + i * 20,
           repeat: Infinity,
           ease: "linear",
         }}
       >
-        <motion.div
-          className="absolute -top-1.5 left-1/2 w-3 h-3 rounded-full bg-primary/60"
-          style={{ boxShadow: '0 0 15px hsl(var(--primary) / 0.6)' }}
-          animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity }}
+        <div
+          className="absolute -top-1 left-1/2 w-2 h-2 rounded-full bg-primary/50"
+          style={{ boxShadow: '0 0 10px hsl(var(--primary) / 0.5)' }}
         />
       </motion.div>
     ))}
   </div>
-);
+));
 
 const HeroBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -323,12 +254,11 @@ const HeroBackground = () => {
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 400]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
+  // Simplified transforms
+  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   
-  const smoothY = useSpring(y, { stiffness: 40, damping: 25 });
-  const smoothScale = useSpring(scale, { stiffness: 40, damping: 25 });
+  const smoothY = useSpring(y, { stiffness: 50, damping: 30 });
 
   return (
     <motion.div 
@@ -336,47 +266,44 @@ const HeroBackground = () => {
       className="absolute inset-0 overflow-hidden"
       style={{ opacity }}
     >
-      {/* Deep background gradient */}
+      {/* Base gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
       
-      {/* Cinematic aurora with parallax */}
-      <motion.div style={{ y: smoothY, scale: smoothScale }}>
+      {/* Aurora with parallax */}
+      <motion.div style={{ y: smoothY }}>
         <CinematicAurora />
       </motion.div>
       
-      {/* Floating orbs layer */}
-      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}>
-        <FloatingOrbs />
-      </motion.div>
+      {/* Floating orbs */}
+      <FloatingOrbs />
       
-      {/* Morphing blobs */}
-      <MorphingBlob className="top-[10%] -left-[15%] w-[700px] h-[700px]" color="primary" />
-      <MorphingBlob className="bottom-[5%] -right-[15%] w-[600px] h-[600px]" color="accent" />
-      <MorphingBlob className="top-[40%] right-[20%] w-[400px] h-[400px]" color="primary" />
+      {/* Morphing blobs - reduced from 3 to 2 */}
+      <MorphingBlob className="top-[10%] -left-[15%] w-[600px] h-[600px]" color="primary" />
+      <MorphingBlob className="bottom-[5%] -right-[15%] w-[500px] h-[500px]" color="accent" />
       
-      {/* Animated grid */}
+      {/* Grid */}
       <AnimatedGrid />
       
       {/* Light beams */}
       <LightBeams />
       
-      {/* Orbiting rings */}
+      {/* Rings */}
       <OrbitingRings />
       
-      {/* Particle field */}
+      {/* Particles */}
       <ParticleField />
       
-      {/* Floating code */}
+      {/* Code */}
       <FloatingCode />
       
-      {/* Noise texture */}
+      {/* Noise */}
       <NoiseTexture />
       
-      {/* Gradient overlays for depth */}
+      {/* Overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-transparent" />
       
-      {/* Radial vignette */}
+      {/* Vignette */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -387,4 +314,4 @@ const HeroBackground = () => {
   );
 };
 
-export default HeroBackground;
+export default memo(HeroBackground);
