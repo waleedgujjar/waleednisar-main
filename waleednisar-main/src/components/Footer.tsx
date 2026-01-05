@@ -5,10 +5,9 @@ import { Button } from '@/components/ui/button';
 import AboutBackground from './AboutBackground';
 
 const socialLinks = [
-  { icon: Github, href: 'https://github.com', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-  { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-  { icon: Mail, href: 'mailto:john@example.com', label: 'Email' },
+  { icon: Github, href: 'https://github.com/waleedgujjar', label: 'GitHub' },
+  { icon: Linkedin, href: 'https://www.linkedin.com/in/waleed-nisar-mern-stack-developer/', label: 'LinkedIn' },
+  { icon: Mail, href: 'mailto:waleednisar43@gmail.com', label: 'Email' },
 ];
 
 const quickLinks = [
