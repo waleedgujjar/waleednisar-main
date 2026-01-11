@@ -54,7 +54,7 @@ const projects = [
   shortDesc: 'Fantasy cricket with live scores & leaderboards.',
   image: Cric,
   tags: ['TypeScript', 'Next.js', 'AWS', 'GraphQL'],
-  liveUrl: '#',
+  liveUrl: 'https://www.cricgala.com/',
   githubUrl: '#',
   color: 'from-emerald-500 to-green-500',
   features: [
